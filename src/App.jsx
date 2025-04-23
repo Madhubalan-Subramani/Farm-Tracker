@@ -1,15 +1,19 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
+import NavBar from "./components/navbar/NavBar";
+import "./App.css";
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <h1>Welcome to My App</h1>
+    <BrowserRouter>
+      <header>
+        <NavBar />
+      </header>
+      <main>
         <AppRoutes />
-      </div>
-    </Router>
+      </main>
+    </BrowserRouter>
   );
 };
 

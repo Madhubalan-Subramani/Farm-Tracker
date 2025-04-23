@@ -3,7 +3,35 @@ import { auth, db } from "../../firebase/setup";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "../../utils/CloudinaryUtils";
 import "./styles/SignUp.css";
+
+// Helper functions for validation
+const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePassword = (password) => password.length >= 6;
+
+// Function to store user data in Firestore
+const createUserInFirestore = async (
+  user,
+  name,
+  email,
+  phone,
+  profilePictureUrl
+) => {
+  const userDoc = doc(db, "users", user.uid);
+  await setDoc(userDoc, {
+    uid: user.uid,
+    name,
+    email,
+    phone,
+    profilePicture: profilePictureUrl,
+    role: "user",
+    isVerified: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    lastLogin: new Date(),
+  });
+};
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -15,16 +43,16 @@ const SignUp = () => {
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const navigate = useNavigate();
+  const [profilePicture, setProfilePicture] = useState(null);
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => password.length >= 6;
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    // Validate email and password
     if (!validateEmail(email)) {
       setEmailValid(false);
       setLoading(false);
@@ -42,6 +70,7 @@ const SignUp = () => {
     }
 
     try {
+      // Create user with Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -49,23 +78,27 @@ const SignUp = () => {
       );
       const user = userCredential.user;
 
-      // Store name and phone in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        name,
-        email,
-        phone,
-        createdAt: new Date(),
-      });
+      // Upload profile picture to Cloudinary if selected
+      let profilePictureUrl = "";
+      if (profilePicture) {
+        profilePictureUrl = await uploadImage(profilePicture);
+      }
+
+      // Store user data in Firestore
+      await createUserInFirestore(user, name, email, phone, profilePictureUrl);
 
       alert("Account created successfully!");
       setLoading(false);
+      setName("");
+      setPhone("");
       setEmail("");
       setPassword("");
+      setProfilePicture(null);
       navigate("/signin");
     } catch (err) {
-      setError(err.message);
+      setError("Failed to create account. Please try again.");
       setLoading(false);
+      console.error("Error during sign up:", err);
     }
   };
 
@@ -106,6 +139,7 @@ const SignUp = () => {
             <p className="error-message">Please enter a valid email address.</p>
           )}
         </div>
+
         <div>
           <label>Password:</label>
           <div style={{ position: "relative" }}>
@@ -130,10 +164,21 @@ const SignUp = () => {
             </p>
           )}
         </div>
+
+        <div>
+          <label>Profile Picture:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setProfilePicture(e.target.files[0])}
+          />
+        </div>
+
         <button type="submit" disabled={loading}>
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
       </form>
+
       {error && <p className="error">{error}</p>}
     </div>
   );

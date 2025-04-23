@@ -14,13 +14,14 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(""); // Reset previous errors
+    setError("");
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard"); // Redirect to dashboard after successful login
+      navigate("/home", { replace: true }); 
+
     } catch (err) {
-      setError(err.message); // Display error if login fails
+      setError(err.message);
       setLoading(false);
     }
   };

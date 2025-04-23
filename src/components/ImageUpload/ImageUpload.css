@@ -1,0 +1,13 @@
+.image-upload-container {
+  margin: 20px;
+  padding: 10px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  background-color: #f9f9f9;
+}
+.image-upload-container img {
+  margin-top: 10px;
+  border-radius: 8px;
+}
