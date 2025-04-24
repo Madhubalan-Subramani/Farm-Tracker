@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FaSun, FaMoon, FaGlobe, FaUserAlt } from "react-icons/fa";
-import { auth, db } from "../../firebase/setup"; // Include Firestore
+import { auth, db } from "../../firebase/setup";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import './styles/NavBar.css';
+import "./styles/NavBar.css";
+import Images from "../../assets/Images";
 
 const NavBar = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const [user, setUser] = useState(null); // Firebase Auth user
-  const [userData, setUserData] = useState(null); // Firestore user data
+  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleSidebar = () => setShowSidebar(!showSidebar);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -40,9 +43,17 @@ const NavBar = () => {
   const getUserAvatar = () => {
     if (userData) {
       if (userData.profilePicture) {
-        return <img src={userData.profilePicture} alt="User" className="user-avatar" />;
+        return (
+          <img
+            src={userData.profilePicture}
+            alt="User"
+            className="user-avatar"
+          />
+        );
       } else if (userData.name) {
-        return <div className="user-avatar">{userData.name[0].toUpperCase()}</div>;
+        return (
+          <div className="user-avatar">{userData.name[0].toUpperCase()}</div>
+        );
       }
     }
     return <FaUserAlt className="icon" />;
@@ -59,10 +70,45 @@ const NavBar = () => {
         <button className="navbar-btn">
           <FaGlobe className="icon" />
         </button>
-        <button className="navbar-btn">
+        <button className="navbar-btn" onClick={toggleSidebar}>
           {getUserAvatar()}
         </button>
       </div>
+
+      {/* SideBar */}
+      {showSidebar && (
+        <div className="user-sidebar">
+          {user ? (
+            <>
+              <img
+                src={userData?.profilePicture || Images.defaultAvatar}
+                alt="User"
+                className="sidebar-avatar"
+              />
+              <div className="sidebar-content">
+                <h3>{userData?.name}</h3>
+                <p>{userData?.email}</p>
+                <p>{userData?.phone}</p>
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    auth.signOut();
+                    setShowSidebar(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="sidebar-content">
+              <h3>Welcome to Form Tracker!</h3>
+              <p>Please sign in to access your dashboard features.</p>
+              <p>We're excited to have you onboard 🌟</p>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
