@@ -1,39 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { auth, db } from "../../firebase/setup";
-import { doc, getDoc } from "firebase/firestore";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/setup";
+import "./styles/Home.css";
+import Images from "../../assets/Images";
+
 
 const Home = () => {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const user = auth.currentUser;
-      if (!user) {
-        navigate("/signin", { replace: true });
-        return;
-      }
-
-      try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
-        } else {
-          console.error("No such document!");
-        }
-      } catch (err) {
-        console.error("Error getting user data:", err);
-        alert("There was an error fetching your data. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
 
   useEffect(() => {
     const handlePopState = (e) => {
@@ -49,34 +22,30 @@ const Home = () => {
     };
 
     window.addEventListener("popstate", handlePopState);
-
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, [navigate]);
 
-  const handleLogout = () => {
-    auth.signOut();
-    navigate("/signin", { replace: true });
-  };
-
-  if (loading) {
-    return <div>Loading user data...</div>; // Show loading state
-  }
+  const cards = [
+    { title: "List Page", image: Images.logo_list, path: "/list" },
+    { title: "Add Page", image: Images.logo_add_data, path: "/add" },
+    { title: "Person Data", image: Images.logo_personData, path: "/person" },
+    { title: "Add Payment", image: Images.logo_payement, path: "/payment" },
+  ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>User Dashboard</h2>
-      {userData ? (
-        <div>
-          <p><strong>Name:</strong> {userData.name}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Phone:</strong> {userData.phone}</p>
-          <button onClick={handleLogout}>Logout</button>
+    <div className="home-container">
+      {cards.map((card, index) => (
+        <div
+          key={index}
+          className="home-card"
+          onClick={() => navigate(card.path)}
+        >
+          <img src={card.image} alt={card.title} className="home-card-img" />
+          <h3 className="home-card-title">{card.title}</h3>
         </div>
-      ) : (
-        <p>No user data found.</p>
-      )}
+      ))}
     </div>
   );
 };

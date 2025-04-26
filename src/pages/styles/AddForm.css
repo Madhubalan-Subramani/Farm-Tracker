@@ -1,0 +1,258 @@
+/* ============================
+   Page Layout
+============================ */
+.add-form-page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: #f4f6f8;
+  margin-top: 60px;
+}
+
+/* ============================
+     Card Container
+  ============================ */
+.form-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.form-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* ============================
+     Form Rows & Labels
+  ============================ */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 50%;
+}
+
+.row-two {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.row-two .form-row {
+  flex: 1;
+}
+
+.form-row label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.required {
+  font-size: 14px;
+  color: red;
+}
+
+/* ============================
+     Inputs & Textarea
+  ============================ */
+input,
+select,
+textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: green;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+}
+
+input[type="date"]:invalid {
+  color: grey;
+}
+
+.placeholder {
+  color: grey;
+}
+
+.amount-input {
+  height: 90px;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* ============================
+     Mic Input Icon
+  ============================ */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.mic-icon {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ============================
+     Toggle Switch
+  ============================ */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 28px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.switch input:checked + .slider {
+  background-color: #008505;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* ============================
+     Submit Button
+  ============================ */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #008505;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background-color: #007004;
+}
+
+/* ============================
+     Custom Dropdown (Images)
+  ============================ */
+.image-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-header {
+  padding: 10px;
+  height: 88px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.dropdown-header img {
+  width: 100%;
+  height: 60px;
+  object-fit: contain;
+}
+
+.dropdown-list {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 4px;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 6px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-item img {
+  width: 100%;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}

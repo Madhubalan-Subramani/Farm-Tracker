@@ -4,6 +4,7 @@ import { auth } from "../firebase/setup";
 import SignUp from "../components/auth/Signup";
 import SignIn from "../components/auth/Signin";
 import Home from "../components/home/Home";
+import AddForm from "../pages/AddForm"
 
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
@@ -19,7 +20,7 @@ const AppRoutes = () => {
     return unsubscribe;
   }, []);
 
-  if (loading) return <div>Loading...</div>; // This could be improved with a dedicated loading component
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Routes>
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         path="/home"
         element={user ? <Home /> : <Navigate to="/signin" />}
       />
+      <Route path="/add" element={<AddForm />} />
     </Routes>
   );
 };
