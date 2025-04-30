@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { uploadImage } from '../../utils/CloudinaryUtils';
+import { uploadImage } from '../../utils/cloudinaryImageUpload';
 import './ImageUpload.css';
 
 const ImageUpload = () => {

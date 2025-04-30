@@ -3,8 +3,9 @@ import { FaSun, FaMoon, FaGlobe, FaUserAlt } from "react-icons/fa";
 import { auth, db } from "../../firebase/setup";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import "./styles/NavBar.css";
+import "./NavBar.css";
 import Images from "../../assets/Images";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -39,6 +40,8 @@ const NavBar = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const navigate = useNavigate();
 
   const getUserAvatar = () => {
     if (userData) {
@@ -94,6 +97,7 @@ const NavBar = () => {
                   onClick={() => {
                     auth.signOut();
                     setShowSidebar(false);
+                    navigate("/signin");
                   }}
                 >
                   Logout

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/setup";
-import "./styles/Home.css";
+import "./Home.css";
 import Images from "../../assets/Images";
 
 

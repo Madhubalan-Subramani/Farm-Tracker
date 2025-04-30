@@ -5,6 +5,7 @@ import SignUp from "../components/auth/Signup";
 import SignIn from "../components/auth/Signin";
 import Home from "../components/home/Home";
 import AddForm from "../pages/AddForm"
+import Listpage from "../pages/ListPage";
 
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         element={user ? <Home /> : <Navigate to="/signin" />}
       />
       <Route path="/add" element={<AddForm />} />
+      <Route path="/list" element={<Listpage />} />
     </Routes>
   );
 };

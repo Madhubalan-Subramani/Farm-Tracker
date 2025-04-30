@@ -1,0 +1,350 @@
+/* ====================================
+   General Container Styles
+==================================== */
+
+.listpage-container {
+  padding: 2rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  margin-top: 60px;
+}
+
+.listpage-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* ====================================
+   Table Styles
+==================================== */
+
+/* Table Wrapper (Container for table with scrollable behavior) */
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Data Table Structure */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 13px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  color: #555;
+}
+
+
+/* Table Header Styling */
+.data-table th {
+  background-color: #f0f0f0;
+  color: #222;
+  font-weight: 500;
+}
+
+/* Table Row Hover Effect */
+.data-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* No Data Found Styling */
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 1.2rem;
+}
+
+.stickyTable {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 10;
+}
+
+.data-table td.stickyTable:hover {
+  background-color: #f9f9f9;
+}
+
+img {
+  width: 60px;
+  object-fit: contain;
+}
+
+.data-table td.stickyTable {
+  background-color: white;
+}
+
+.data-table th.stickyTable,
+.data-table td.stickyTable {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+tbody tr:hover .stickyTable {
+  background-color: #f9f9f9;
+}
+
+.data-table th:hover .stickyTable {
+  background-color: #f0f0f0;
+}
+
+/* ====================================
+   Summary Section Styles
+==================================== */
+
+.summary-wrapper {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.summary-title {
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Summary Table Styling */
+.summary-table {
+  width: 60%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.summary-table th {
+  background-color: #f7f7f7;
+  color: #555;
+  font-weight: 500;
+}
+
+.summary-table td {
+  background-color: #fff;
+}
+
+/* ====================================
+   Button Styles (Edit, Delete)
+==================================== */
+
+.edit-btn,
+.delete-btn {
+  background: none;
+  border: none;
+  margin: 0 0.3rem;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.edit-btn {
+  color: #2d6cdf;
+}
+
+.edit-btn:hover {
+  background-color: #e5efff;
+}
+
+.delete-btn {
+  color: #e63946;
+}
+
+.delete-btn:hover {
+  background-color: #ffe5e5;
+}
+
+/* ====================================
+   Notes Popup Styles
+==================================== */
+
+.notes-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.full-notes-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 5px;
+  width: 250px;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  white-space: normal;
+}
+
+.notes-wrapper:hover .full-notes-popup {
+  display: block;
+}
+
+@media (pointer: coarse) {
+  .notes-wrapper:active .full-notes-popup {
+    background-color: inherit;
+  }
+}
+
+/* ====================================
+   Table Cell Styles
+==================================== */
+
+td,
+th {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ====================================
+   Table Responsive Design (For overflow behavior)
+==================================== */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* ====================================
+   Tabs and Sort Button Styles
+==================================== */
+
+.tabs-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.sort-buttons {
+  display: flex;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.sort-btn {
+  padding: 8px 15px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.tabs {
+  display: flex;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  height: 36px;
+}
+
+.tab-btn {
+  padding: 8px 15px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: #333;
+  border-right: 1px solid #ccc;
+}
+
+.tab-btn svg {
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.tab-btn:not(.active) {
+  background-color: #f1f1f1;
+  color: #555;
+}
+
+/* ====================================
+   Pagination Button Styles
+==================================== */
+
+.pagination-buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.pagination-btn {
+  padding: 6px 16px;
+  margin: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* .pagination-btn:hover {
+  background-color: #008b05;
+} */
+
+/* ====================================
+   Date Navigator Styles
+==================================== */
+
+.date-navigator-row {
+  display: flex;
+  gap: 20px;
+}
+
+.date-navigator {
+  display: flex;
+  gap: 5px;
+}
+
+.nav-button {
+  background-color: transparent;
+  color: black;
+  border-radius: 50%;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-button:disabled {
+  background-color: transparent;
+  cursor: not-allowed;
+  color: #cccccc;
+}
+
+.nav-button:hover {
+  background-color: #cccccc;
+  color: white;
+}

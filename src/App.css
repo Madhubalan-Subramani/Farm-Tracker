@@ -3,3 +3,8 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+.appBgColor {
+  background-color: #008b05;
+  color: white;
+}

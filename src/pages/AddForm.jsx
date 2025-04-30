@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FaMicrophone } from "react-icons/fa";
 import MoneyInput from "../components/form/MoneyInput";
-import { culti_options, payment_options } from "../utils/FormOptions";
-import { getFormData, validateFormData } from "../utils/validation";
-import "./styles/AddForm.css";
+import { culti_options, payment_options } from "../utils/cultiOptionImage";
+import { getFormData, addFormValidation } from "../utils/addFormValidation";
+import "./AddForm.css";
 import { auth, db } from "../firebase/setup";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -22,6 +22,7 @@ const AddForm = () => {
   const [totalAmount, setTotalAmount] = useState("0");
   const [paidAmount, setPaidAmount] = useState("0");
   const [formErrors, setFormErrors] = useState({});
+  const [notes, setNotes] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +39,10 @@ const AddForm = () => {
       paymentSelected,
       totalAmount,
       paidAmount,
+      notes,
     });
 
-    const errors = validateFormData(formData);
+    const errors = addFormValidation(formData);
     setFormErrors(errors);
 
     if (Object.keys(errors).length > 0) return;
@@ -92,6 +94,7 @@ const AddForm = () => {
       created_at: serverTimestamp(),
       updated_at: serverTimestamp(),
       status: "active",
+      notes: notes,
     };
 
     try {
@@ -120,6 +123,7 @@ const AddForm = () => {
     setPaidAmount("0");
     setIsPaid(false);
     setFormErrors({});
+    setNotes("")
   };
 
   return (
@@ -367,6 +371,24 @@ const AddForm = () => {
             </div>
           </div>
         )}
+
+        {/* Notes with Mic */}
+        <div className="form-row" style={{ width: "100%" }}>
+          <label htmlFor="notes">Notes</label>
+          <div className="input-with-icon">
+            <textarea
+              id="notes"
+              name="notes"
+              rows="3"
+              placeholder="Enter any additional notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+            <button type="button" className="mic-icon">
+              <FaMicrophone />
+            </button>
+          </div>
+        </div>
 
         <button type="submit" className="submit-btn">
           Submit

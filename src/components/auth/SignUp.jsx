@@ -3,8 +3,8 @@ import { auth, db } from "../../firebase/setup";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { uploadImage } from "../../utils/CloudinaryUtils";
-import "./styles/SignUp.css";
+import { cloudinaryImageUpload } from "../../utils/cloudinaryImageUpload";
+import "./SignUp.css";
 
 // Helper functions for validation
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -81,7 +81,7 @@ const SignUp = () => {
       // Upload profile picture to Cloudinary if selected
       let profilePictureUrl = "";
       if (profilePicture) {
-        profilePictureUrl = await uploadImage(profilePicture);
+        profilePictureUrl = await cloudinaryImageUpload(profilePicture);
       }
 
       // Store user data in Firestore

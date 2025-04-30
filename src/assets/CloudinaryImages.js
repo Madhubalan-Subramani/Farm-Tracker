@@ -13,7 +13,8 @@ const cultivatorImages = {
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745502153/tailor_oqglpo.png",
   discPlough_Image:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745502150/disc-cluti_e1nmv3.png",
-    tractor_Image:"https://res.cloudinary.com/dfvbqnou6/image/upload/v1745567405/Tractor_nvgyum.png"
+  tractor_Image:
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745567405/Tractor_nvgyum.png",
 };
 
 const otherImages = {
@@ -34,15 +35,15 @@ const homepageImages = {
 
 const modeofpaymentImages = {
   cash_payment:
-    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745561914/cash_tpdv2w.png",
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745862578/cash_tpdv2w.png",
   gpay_payment:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745564774/Google_Pay_jsc2b2.png",
   phone_pay_payment:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745562309/PhonePe_xkdqne.png",
   online_payement:
-    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745561913/online_pay_oe9jvn.png",
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745864215/other_payment_method_gnxnpq.png",
   other_payment:
-    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745561913/other_payment_method_gnxnpq.png",
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745864290/online_pay_oe9jvn.png",
 };
 
 const allImages = {

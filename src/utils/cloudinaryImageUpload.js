@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const uploadImage = async (file) => {
+export const cloudinaryImageUpload = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', 'Form-Tracker-Images');

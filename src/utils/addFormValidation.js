@@ -40,7 +40,7 @@ export const getFormData = ({
   return formData;
 };
 
-export const validateFormData = (formData) => {
+export const addFormValidation = (formData) => {
   const errors = {};
   const {
     name,
