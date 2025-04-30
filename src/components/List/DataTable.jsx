@@ -9,6 +9,22 @@ const formatDate = (dateString) => {
   return `${day}-${month}-${year}`;
 };
 
+const isTamil = (text) => /[\u0B80-\u0BFF]/.test(text);
+const renderName = (name) => {
+  return name.split(" ").map((word, index) => {
+    const isTamilWord = isTamil(word);
+    return isTamilWord ? (
+      <span key={index} className="tamil-text">
+        {word}{" "}
+      </span>
+    ) : (
+      <span key={index} className="english-text">
+        {word}{" "}
+      </span>
+    );
+  });
+};
+
 const DataTable = ({ data, indexOfFirstRecord }) => {
   return (
     <div className="table-wrapper">
@@ -34,7 +50,7 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
               <tr key={item.id}>
                 <td>{index + indexOfFirstRecord + 1}</td>
                 <td className="stickyTable">{formatDate(item.date)}</td>
-                <td>{item.name}</td>
+                <td>{renderName(item.name)}</td>
                 <td>
                   {item.cultivator_type_image && (
                     <img src={item.cultivator_type_image} alt="cultivator" />
@@ -73,7 +89,6 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
                     "-"
                   )}
                 </td>
-
                 <td>
                   <button className="edit-btn">Edit</button>
                   <button className="delete-btn">Delete</button>

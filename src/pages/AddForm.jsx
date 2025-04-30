@@ -1,11 +1,25 @@
-import React, { useState } from "react";
-import { FaMicrophone } from "react-icons/fa";
-import MoneyInput from "../components/form/MoneyInput";
-import { culti_options, payment_options } from "../utils/cultiOptionImage";
-import { getFormData, addFormValidation } from "../utils/addFormValidation";
-import "./AddForm.css";
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebase/setup";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  getDocs,
+} from "firebase/firestore";
+import { culti_options, payment_options } from "../utils/cultiOptionImage";
+import NameInput from "../components/form/NameInput";
+import PhoneInput from "../components/form/PhoneInput";
+import DateInput from "../components/form/DateInput";
+import TimeInput from "../components/form/TimeInput";
+import RoundsInput from "../components/form/RoundsInput";
+import MoneyInput from "../components/form/MoneyInput";
+import NotesInput from "../components/form/NotesInput";
+import SubmitButton from "../components/form/SubmitButton";
+import ImageDropdown from "../components/Form/ImageDropdown";
+import PaidSection from "../components/Form/PaidSection";
+import "./AddForm.css";
+
+import { getFormData, addFormValidation } from "../utils/addFormValidation";
 
 const AddForm = () => {
   const [name, setName] = useState("");
@@ -23,6 +37,28 @@ const AddForm = () => {
   const [paidAmount, setPaidAmount] = useState("0");
   const [formErrors, setFormErrors] = useState({});
   const [notes, setNotes] = useState("");
+  const [allNames, setAllNames] = useState([]);
+  const [filteredNames, setFilteredNames] = useState([]);
+
+  useEffect(() => {
+    const fetchNames = async () => {
+      const userRef = collection(db, "users", auth.currentUser.uid, "userData");
+      const snapshot = await getDocs(userRef);
+      const names = snapshot.docs.map((doc) => doc.data().name).filter(Boolean);
+      setAllNames([...new Set(names)]); // remove duplicates
+    };
+
+    fetchNames();
+  }, []);
+
+  const handleNameChange = (value) => {
+    setName(value);
+    const suggestions = 
+    allNames.filter((n) =>
+      n.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredNames(suggestions);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,113 +159,55 @@ const AddForm = () => {
     setPaidAmount("0");
     setIsPaid(false);
     setFormErrors({});
-    setNotes("")
+    setNotes("");
   };
+
+  const isTimeBased = [
+    "rotavator",
+    "5tynes",
+    "9tynes",
+    "landLeveler",
+    "discPlough",
+  ].includes(cultiSelected?.value);
 
   return (
     <div className="add-form-page">
       <form className="form-card" onSubmit={handleSubmit}>
         <h2>Add New Record</h2>
 
-        {/* Name */}
-        <div className="form-row" style={{ width: "100%" }}>
-          <label htmlFor="name">
-            Name<span className="required">*</span>
-          </label>
-          <div className="input-with-icon">
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter full name"
-            />
-
-            <button type="button" className="mic-icon">
-              <FaMicrophone />
-            </button>
-          </div>
-          {formErrors.name && <p className="error">{formErrors.name}</p>}
-        </div>
+        <NameInput
+          name={name}
+          setName={handleNameChange}
+          error={formErrors.name}
+          suggestions={filteredNames}
+          onSuggestionClick={(value) => {
+            setName(value);
+            setFilteredNames([]);
+          }}
+        />
 
         {/* Date and Phone */}
         <div className="row-two">
-          <div className="form-row">
-            <label>
-              Date<span className="required">*</span>
-            </label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              max={new Date().toISOString().split("T")[0]}
-              autoComplete="off"
-            />
-
-            {formErrors.date && <p className="error">{formErrors.date}</p>}
-          </div>
-          <div className="form-row">
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              name="phoneNumber"
-              inputMode="numeric"
-              maxLength="10"
-              placeholder="Enter 10-digit number"
-              autoComplete="off"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-            {formErrors.phoneNumber && (
-              <p className="error">{formErrors.phoneNumber}</p>
-            )}
-          </div>
+          <DateInput date={date} setDate={setDate} error={formErrors.date} />
+          <PhoneInput
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
+            error={formErrors.phoneNumber}
+          />
         </div>
 
         {/* Cultivator and Amount */}
         <div className="row-two">
-          <div className="form-row">
-            <label>
-              Cultivator<span className="required">*</span>
-            </label>
-            <div className="image-dropdown">
-              <div
-                className="dropdown-header"
-                onClick={() => {
-                  setCultiDropdownOpen(!cultiDropdownOpen);
-                  setPaymentDropdownOpen(false);
-                }}
-              >
-                {cultiSelected ? (
-                  <img src={cultiSelected.image} alt={cultiSelected.value} />
-                ) : (
-                  <span className="placeholder">Select Cultivator</span>
-                )}
-              </div>
-              {cultiDropdownOpen && (
-                <div className="dropdown-list">
-                  {culti_options.map((opt) => (
-                    <div
-                      key={opt.value}
-                      className="dropdown-item"
-                      onClick={() => {
-                        setCultiSelected(opt);
-                        setCultiDropdownOpen(false);
-                      }}
-                    >
-                      <img src={opt.image} alt={opt.value} />
-                    </div>
-                  ))}
-                </div>
-              )}
-              {formErrors.cultivator && (
-                <p className="error">{formErrors.cultivator}</p>
-              )}
-            </div>
-          </div>
+          <ImageDropdown
+            label="Cultivator"
+            selected={cultiSelected}
+            setSelected={setCultiSelected}
+            dropdownOpen={cultiDropdownOpen}
+            setDropdownOpen={setCultiDropdownOpen}
+            options={culti_options}
+            placeholder="Select Cultivator"
+            error={formErrors.cultivator}
+          />
 
           <div className="form-row">
             <label>
@@ -247,55 +225,21 @@ const AddForm = () => {
         </div>
 
         {/* Time or Trips */}
-        {cultiSelected &&
-        ["rotavator", "5tynes", "9tynes", "landLeveler", "discPlough"].includes(
-          cultiSelected.value
-        ) ? (
-          <div className="row-two">
-            <div className="form-row">
-              <label>Hours</label>
-              <input
-                type="number"
-                min="0"
-                max="10"
-                value={hours}
-                onChange={(e) => setHours(e.target.value || "0")}
-                onFocus={(e) => e.target.value === "0" && setHours("")}
-                onBlur={(e) => e.target.value === "" && setHours("0")}
-              />
-            </div>
-            <div className="form-row">
-              <label>
-                Minutes<span className="required">*</span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="60"
-                value={minutes}
-                onChange={(e) => setMinutes(e.target.value || "0")}
-                onFocus={(e) => e.target.value === "0" && setMinutes("")}
-                onBlur={(e) => e.target.value === "" && setMinutes("0")}
-              />
-              {formErrors.time && <p className="error">{formErrors.time}</p>}
-            </div>
-          </div>
-        ) : cultiSelected ? (
-          <div className="form-row">
-            <label>
-              Trips<span className="required">*</span>
-            </label>
-            <input
-              type="number"
-              max="20"
-              value={noOfTrips}
-              onChange={(e) => setNoOfTrips(e.target.value || "0")}
-              onFocus={(e) => e.target.value === "0" && setNoOfTrips("")}
-              onBlur={(e) => e.target.value === "" && setNoOfTrips("0")}
-            />
-            {formErrors.trips && <p className="error">{formErrors.trips}</p>}
-          </div>
-        ) : null}
+        {isTimeBased ? (
+          <TimeInput
+            hours={hours}
+            setHours={setHours}
+            minutes={minutes}
+            setMinutes={setMinutes}
+            error={formErrors.time}
+          />
+        ) : (
+          <RoundsInput
+            noOfTrips={noOfTrips}
+            setNoOfTrips={setNoOfTrips}
+            error={formErrors.trips}
+          />
+        )}
 
         {/* Paid Toggle */}
         <div className="form-row">
@@ -310,89 +254,24 @@ const AddForm = () => {
           </label>
         </div>
 
-        {/* Payment Fields */}
-        {isPaid && (
-          <div className="row-two">
-            <div className="form-row">
-              <label>
-                Cash Type<span className="required">*</span>
-              </label>
-              <div className="image-dropdown">
-                <div
-                  className="dropdown-header"
-                  onClick={() => {
-                    setPaymentDropdownOpen(!paymentDropdownOpen);
-                    setCultiDropdownOpen(false);
-                  }}
-                >
-                  {paymentSelected ? (
-                    <img
-                      src={paymentSelected.image}
-                      alt={paymentSelected.value}
-                    />
-                  ) : (
-                    <span className="placeholder">Select payment mode</span>
-                  )}
-                </div>
-                {paymentDropdownOpen && (
-                  <div className="dropdown-list">
-                    {payment_options.map((opt) => (
-                      <div
-                        key={opt.value}
-                        className="dropdown-item"
-                        onClick={() => {
-                          setPaymentSelected(opt);
-                          setPaymentDropdownOpen(false);
-                        }}
-                      >
-                        <img src={opt.image} alt={opt.value} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {formErrors.payment && (
-                  <p className="error">{formErrors.payment}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="form-row">
-              <label>
-                Paid Amount<span className="required">*</span>
-              </label>
-              <MoneyInput
-                amount={paidAmount}
-                setAmount={setPaidAmount}
-                field="paidAmount"
-              />
-              {formErrors.paidAmount && (
-                <p className="error">{formErrors.paidAmount}</p>
-              )}
-            </div>
-          </div>
-        )}
+        {/* Payment Section */}
+        <PaidSection
+          isPaid={isPaid}
+          setIsPaid={setIsPaid}
+          paymentSelected={paymentSelected}
+          setPaymentSelected={setPaymentSelected}
+          paymentDropdownOpen={paymentDropdownOpen}
+          setPaymentDropdownOpen={setPaymentDropdownOpen}
+          paidAmount={paidAmount}
+          setPaidAmount={setPaidAmount}
+          formErrors={formErrors}
+          payment_options={payment_options}
+        />
 
         {/* Notes with Mic */}
-        <div className="form-row" style={{ width: "100%" }}>
-          <label htmlFor="notes">Notes</label>
-          <div className="input-with-icon">
-            <textarea
-              id="notes"
-              name="notes"
-              rows="3"
-              placeholder="Enter any additional notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-            <button type="button" className="mic-icon">
-              <FaMicrophone />
-            </button>
-          </div>
-        </div>
+        <NotesInput notes={notes} setNotes={setNotes} />
 
-        <button type="submit" className="submit-btn">
-          Submit
-        </button>
+        <SubmitButton />
       </form>
     </div>
   );
