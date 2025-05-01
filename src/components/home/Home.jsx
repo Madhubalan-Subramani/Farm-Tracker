@@ -30,7 +30,7 @@ const Home = () => {
   const cards = [
     { title: "List Page", image: Images.logo_list, path: "/list" },
     { title: "Add Page", image: Images.logo_add_data, path: "/add" },
-    { title: "Person Data", image: Images.logo_personData, path: "/person" },
+    { title: "Person Data", image: Images.logo_personData, path: "/personrecords" },
     { title: "Add Payment", image: Images.logo_payement, path: "/payment" },
   ];
 

@@ -10,7 +10,6 @@ import { filterDataByDateTab } from "../utils/dateTab";
 import { summaryCalculation } from "../utils/summaryCalculation";
 import "./ListPage.css";
 
-// Date Navigator Component
 const DateNavigator = ({ dateOffset, setDateOffset }) => {
   return (
     <div className="date-navigator">
@@ -31,7 +30,6 @@ const DateNavigator = ({ dateOffset, setDateOffset }) => {
   );
 };
 
-// Main ListPage Component
 const ListPage = () => {
   const { data, loading } = useUserData();
   const [dateTab, setDateTab] = useState("day");

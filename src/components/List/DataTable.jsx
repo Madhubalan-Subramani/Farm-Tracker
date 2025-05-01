@@ -32,7 +32,7 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
         <thead>
           <tr>
             <th>#</th>
-            <th className="stickyTable">Date</th>
+            <th>Date</th>
             <th>Name</th>
             <th>Cultivator</th>
             <th>Time/Trip</th>
@@ -49,7 +49,7 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
             data.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + indexOfFirstRecord + 1}</td>
-                <td className="stickyTable">{formatDate(item.date)}</td>
+                <td>{formatDate(item.date)}</td>
                 <td>{renderName(item.name)}</td>
                 <td>
                   {item.cultivator_type_image && (

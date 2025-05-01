@@ -6,6 +6,7 @@ import SignIn from "../components/auth/Signin";
 import Home from "../components/home/Home";
 import AddForm from "../pages/AddForm"
 import Listpage from "../pages/ListPage";
+import PersonRecords from "../pages/PersonRecords";
 
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +26,6 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* Redirect based on user authentication status */}
       <Route path="/" element={<Navigate to={user ? "/home" : "/signin"} />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
@@ -35,6 +35,7 @@ const AppRoutes = () => {
       />
       <Route path="/add" element={<AddForm />} />
       <Route path="/list" element={<Listpage />} />
+      <Route path="/personrecords" element={<PersonRecords />} />
     </Routes>
   );
 };

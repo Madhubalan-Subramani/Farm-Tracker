@@ -1,0 +1,260 @@
+/* -----------------------------------
+   🔍 Search Bar & Mic Input Styles
+------------------------------------ */
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #008b05;
+  border-radius: 50px;
+  padding: 6px 20px;
+  background-color: #ffffff;
+  max-width: 500px;
+  width: 100%;
+  margin: 40px auto 20px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 8px;
+  background-color: transparent;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.search-input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.mic-icon {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #008b05;
+  font-size: 20px;
+  margin-left: 10px;
+  transition: transform 0.2s ease;
+}
+
+.mic-icon:hover {
+  transform: scale(1.1);
+}
+
+.mic-icon.listening {
+  color: red;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* -----------------------------------
+     📜 Suggestions Dropdown
+  ------------------------------------ */
+.suggestions-list {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-list li {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+
+/* -----------------------------------
+     🧱 Layout Containers
+  ------------------------------------ */
+.person-records-container {
+  margin-top: 80px;
+}
+
+.record-layout {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+}
+
+.left-panel {
+  width: 25%;
+}
+
+.right-panel {
+  width: 75%;
+  padding: 0 10px;
+}
+
+/* -----------------------------------
+     👤 Person Summary Card
+  ------------------------------------ */
+.person-summary-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.person-summary-card h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #2e7d32;
+}
+
+.person-summary-card .highlight-number {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.summary-divider {
+  margin: 15px 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+/* -----------------------------------
+     ⏱️ Time / Trip Summary Grid
+  ------------------------------------ */
+.time-trip-summary-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-box {
+  flex: 1;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  color: #333;
+  background: linear-gradient(135deg, #eafaf9, #ffb1f5);
+}
+
+.summary-box:nth-child(2) {
+  background: linear-gradient(135deg, #fff8e1, #f1ff93);
+}
+
+.summary-box .label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.summary-box .value {
+  font-size: 17px;
+  font-weight: 600;
+  color: #5e5e5e;
+}
+
+/* -----------------------------------
+     💰 Amount Summary Cards
+  ------------------------------------ */
+.amount-summary-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.amount-card {
+  flex: 1 1 30%;
+  background: #f7f9fc;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.amount-card:hover,
+.summary-box:hover {
+  transform: translateY(-1px);
+}
+
+.amount-card .label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.amount-card .value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a4a4a;
+}
+
+.amount-card.total {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+}
+
+.amount-card.paid {
+  background: linear-gradient(135deg, #e8f5e9, #89e48c);
+}
+
+.amount-card.balance {
+  background: linear-gradient(135deg, #fff3e0, #ff6464);
+  color: #bf360c;
+}
+
+/* -----------------------------------
+     🎨 Conditional Record Colors
+  ------------------------------------ */
+.not-paid-records {
+  background-color: #e70202;
+  color: white;
+}
+
+.both-paid-records {
+  background-color: #00008d;
+  color: white;
+}

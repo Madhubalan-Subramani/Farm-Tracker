@@ -1,7 +1,6 @@
 /* ====================================
    General Container Styles
 ==================================== */
-
 .listpage-container {
   padding: 2rem;
   background-color: #f9fafb;
@@ -18,18 +17,15 @@
 }
 
 /* ====================================
-   Table Styles
+   Table Wrapper & Table Styles
 ==================================== */
-
-/* Table Wrapper (Container for table with scrollable behavior) */
 .table-wrapper {
   overflow-x: auto;
-  background: white;
+  background: #fff;
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Data Table Structure */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -42,37 +38,40 @@
   border-bottom: 1px solid #eee;
   font-size: 1rem;
   color: #555;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 1;
 }
 
+/* Sticky Table Header */
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
 
-/* Table Header Styling */
+/* Header Styles */
 .data-table th {
   background-color: #f0f0f0;
   color: #222;
   font-weight: 500;
 }
 
-/* Table Row Hover Effect */
+/* Row Hover */
 .data-table tr:hover {
   background-color: #f9f9f9;
 }
 
-/* No Data Found Styling */
-.no-data {
-  text-align: center;
-  padding: 2rem;
-  color: #888;
-  font-size: 1.2rem;
-}
-
-.stickyTable {
+/* Sticky First Column */
+.data-table th.stickyTable,
+.data-table td.stickyTable {
   position: sticky;
   left: 0;
-  background: white;
-  z-index: 10;
+  background-color: white;
+  z-index: 2;
 }
 
-.data-table td.stickyTable:hover {
+tbody tr:hover .stickyTable {
   background-color: #f9f9f9;
 }
 
@@ -81,29 +80,17 @@ img {
   object-fit: contain;
 }
 
-.data-table td.stickyTable {
-  background-color: white;
-}
-
-.data-table th.stickyTable,
-.data-table td.stickyTable {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-}
-
-tbody tr:hover .stickyTable {
-  background-color: #f9f9f9;
-}
-
-.data-table th:hover .stickyTable {
-  background-color: #f0f0f0;
+/* No Data Message */
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 1.2rem;
 }
 
 /* ====================================
    Summary Section Styles
 ==================================== */
-
 .summary-wrapper {
   margin-top: 30px;
   text-align: center;
@@ -115,7 +102,6 @@ tbody tr:hover .stickyTable {
   color: #333;
 }
 
-/* Summary Table Styling */
 .summary-table {
   width: 60%;
   margin: 0 auto;
@@ -141,9 +127,8 @@ tbody tr:hover .stickyTable {
 }
 
 /* ====================================
-   Button Styles (Edit, Delete)
+   Button Styles
 ==================================== */
-
 .edit-btn,
 .delete-btn {
   background: none;
@@ -175,7 +160,6 @@ tbody tr:hover .stickyTable {
 /* ====================================
    Notes Popup Styles
 ==================================== */
-
 .notes-wrapper {
   position: relative;
   cursor: pointer;
@@ -186,16 +170,16 @@ tbody tr:hover .stickyTable {
   position: absolute;
   top: 100%;
   left: 0;
-  background: white;
-  color: black;
+  background: #fff;
+  color: #000;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
   margin-top: 5px;
   width: 250px;
   font-size: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   white-space: normal;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .notes-wrapper:hover .full-notes-popup {
@@ -209,28 +193,8 @@ tbody tr:hover .stickyTable {
 }
 
 /* ====================================
-   Table Cell Styles
-==================================== */
-
-td,
-th {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-/* ====================================
-   Table Responsive Design (For overflow behavior)
-==================================== */
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
-/* ====================================
    Tabs and Sort Button Styles
 ==================================== */
-
 .tabs-container {
   display: flex;
   justify-content: space-between;
@@ -238,41 +202,33 @@ th {
   align-items: center;
 }
 
+.tabs,
 .sort-buttons {
   display: flex;
-  border-radius: 6px;
   border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f1f1f1;
 }
 
+.tab-btn,
 .sort-btn {
   padding: 8px 15px;
-  background-color: #f1f1f1;
-  cursor: pointer;
   font-size: 14px;
   color: #333;
+  background-color: transparent;
+  border: none;
   display: flex;
   align-items: center;
-}
-
-.tabs {
-  display: flex;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  border-radius: 6px;
-  height: 36px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .tab-btn {
-  padding: 8px 15px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  color: #333;
   border-right: 1px solid #ccc;
+}
+
+.tab-btn:not(.active) {
+  color: #555;
 }
 
 .tab-btn svg {
@@ -280,15 +236,9 @@ th {
   font-size: 12px;
 }
 
-.tab-btn:not(.active) {
-  background-color: #f1f1f1;
-  color: #555;
-}
-
 /* ====================================
-   Pagination Button Styles
+   Pagination Styles
 ==================================== */
-
 .pagination-buttons {
   display: flex;
   justify-content: flex-end;
@@ -300,20 +250,15 @@ th {
 .pagination-btn {
   padding: 6px 16px;
   margin: 5px 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
   font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
-
-/* .pagination-btn:hover {
-  background-color: #008b05;
-} */
 
 /* ====================================
    Date Navigator Styles
 ==================================== */
-
 .date-navigator-row {
   display: flex;
   gap: 20px;
@@ -325,12 +270,12 @@ th {
 }
 
 .nav-button {
-  background-color: transparent;
-  color: black;
-  border-radius: 50%;
-  padding: 10px;
   width: 40px;
   height: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -338,13 +283,21 @@ th {
   transition: background-color 0.3s;
 }
 
+.nav-button:hover {
+  background-color: #ccc;
+  color: #fff;
+}
+
 .nav-button:disabled {
   background-color: transparent;
   cursor: not-allowed;
-  color: #cccccc;
+  color: #ccc;
 }
 
-.nav-button:hover {
-  background-color: #cccccc;
-  color: white;
+/* ====================================
+   Responsive Table
+==================================== */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
 }

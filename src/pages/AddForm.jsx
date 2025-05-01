@@ -53,8 +53,7 @@ const AddForm = () => {
 
   const handleNameChange = (value) => {
     setName(value);
-    const suggestions = 
-    allNames.filter((n) =>
+    const suggestions = allNames.filter((n) =>
       n.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredNames(suggestions);
