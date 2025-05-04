@@ -5,18 +5,21 @@ import {
   addDoc,
   serverTimestamp,
   getDocs,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 import { culti_options, payment_options } from "../utils/cultiOptionImage";
-import NameInput from "../components/form/NameInput";
-import PhoneInput from "../components/form/PhoneInput";
-import DateInput from "../components/form/DateInput";
-import TimeInput from "../components/form/TimeInput";
-import RoundsInput from "../components/form/RoundsInput";
-import MoneyInput from "../components/form/MoneyInput";
-import NotesInput from "../components/form/NotesInput";
-import SubmitButton from "../components/form/SubmitButton";
+import NameInput from "../components/Form/NameInput";
+import PhoneInput from "../components/Form/PhoneInput";
+import DateInput from "../components/Form/DateInput";
+import TimeInput from "../components/Form/TimeInput";
+import RoundsInput from "../components/Form/RoundsInput";
+import MoneyInput from "../components/Form/MoneyInput";
+import NotesInput from "../components/Form/NotesInput";
+import SubmitButton from "../components/Form/SubmitButton";
 import ImageDropdown from "../components/Form/ImageDropdown";
 import PaidSection from "../components/Form/PaidSection";
+import { useLocation } from "react-router-dom";
 import "./AddForm.css";
 
 import { getFormData, addFormValidation } from "../utils/addFormValidation";
@@ -40,6 +43,10 @@ const AddForm = () => {
   const [allNames, setAllNames] = useState([]);
   const [filteredNames, setFilteredNames] = useState([]);
 
+  const location = useLocation();
+  const editData = location.state?.editData || null;
+  const isEdit = location.state?.isEdit || false;
+
   useEffect(() => {
     const fetchNames = async () => {
       const userRef = collection(db, "users", auth.currentUser.uid, "userData");
@@ -50,6 +57,36 @@ const AddForm = () => {
 
     fetchNames();
   }, []);
+
+  useEffect(() => {
+    if (editData) {
+      setName(editData.name || "");
+      setPhoneNumber(editData.phone_number || "");
+      setDate(editData.date || new Date().toISOString().split("T")[0]);
+
+      const cultiObj = culti_options.find(
+        (opt) => opt.value === editData.cultivator_type
+      );
+      setCultiSelected(cultiObj || null);
+
+      setHours(editData?.time_used?.hours?.toString() || "0");
+      setMinutes(editData?.time_used?.minutes?.toString() || "0");
+      setNoOfTrips(editData?.trips?.toString() || "0");
+
+      setTotalAmount(editData.total_amount?.toString() || "0");
+
+      setIsPaid(editData.is_paid || true);
+
+      const paymentObj = payment_options.find(
+        (opt) => opt.value === editData.mode_of_payment
+      );
+      setPaymentSelected(paymentObj || null);
+
+      setPaidAmount(editData.paid_amount?.toString() || "0");
+
+      setNotes(editData.notes || "");
+    }
+  }, [editData]);
 
   const handleNameChange = (value) => {
     setName(value);
@@ -119,11 +156,9 @@ const AddForm = () => {
         ? parseInt(formData.noOfTrips) || 0
         : null,
       is_paid: isPaid,
-      ...(isPaid && {
-        mode_of_payment: formData.modeOfPayment,
-        paid_amount: parseFloat(formData.paidAmount) || 0,
-        modeofpayment_image: selectedPayment?.image || null,
-      }),
+      mode_of_payment: formData.modeOfPayment || null,
+      paid_amount: parseFloat(formData.paidAmount) || 0,
+      modeofpayment_image: selectedPayment?.image || null,
       posting_time: serverTimestamp(),
       cultivator_type_image: selectedCultivator?.image || null,
       created_at: serverTimestamp(),
@@ -134,8 +169,23 @@ const AddForm = () => {
 
     try {
       const userRef = collection(db, "users", auth.currentUser.uid, "userData");
-      await addDoc(userRef, cleanedData);
-      alert("Data submitted successfully!");
+      if (isEdit && editData?.id) {
+        const docRef = doc(
+          db,
+          "users",
+          auth.currentUser.uid,
+          "userData",
+          editData.id
+        );
+        await updateDoc(docRef, {
+          ...cleanedData,
+          updated_at: serverTimestamp(),
+        });
+        alert("Data updated successfully!");
+      } else {
+        await addDoc(userRef, cleanedData);
+        alert("Data submitted successfully!");
+      }
       resetForm();
     } catch (error) {
       console.error("Error saving data: ", error);
@@ -169,10 +219,16 @@ const AddForm = () => {
     "discPlough",
   ].includes(cultiSelected?.value);
 
+  const isRoundBased = [
+    "dumpTrailer",
+    "waterTanker",
+    "tractor",
+  ].includes(cultiSelected?.value);
+
   return (
     <div className="add-form-page">
       <form className="form-card" onSubmit={handleSubmit}>
-        <h2>Add New Record</h2>
+        {isEdit ? <h2>Update Existing Record</h2> : <h2>Add New Record</h2>}
 
         <NameInput
           name={name}
@@ -232,13 +288,13 @@ const AddForm = () => {
             setMinutes={setMinutes}
             error={formErrors.time}
           />
-        ) : (
+        ) : isRoundBased ? (
           <RoundsInput
             noOfTrips={noOfTrips}
             setNoOfTrips={setNoOfTrips}
             error={formErrors.trips}
           />
-        )}
+        ) : null}
 
         {/* Paid Toggle */}
         <div className="form-row">
@@ -254,23 +310,25 @@ const AddForm = () => {
         </div>
 
         {/* Payment Section */}
-        <PaidSection
-          isPaid={isPaid}
-          setIsPaid={setIsPaid}
-          paymentSelected={paymentSelected}
-          setPaymentSelected={setPaymentSelected}
-          paymentDropdownOpen={paymentDropdownOpen}
-          setPaymentDropdownOpen={setPaymentDropdownOpen}
-          paidAmount={paidAmount}
-          setPaidAmount={setPaidAmount}
-          formErrors={formErrors}
-          payment_options={payment_options}
-        />
+        {isPaid && (
+          <div className="row-two">
+            <PaidSection
+              paymentSelected={paymentSelected}
+              setPaymentSelected={setPaymentSelected}
+              paymentDropdownOpen={paymentDropdownOpen}
+              setPaymentDropdownOpen={setPaymentDropdownOpen}
+              paidAmount={paidAmount}
+              setPaidAmount={setPaidAmount}
+              formErrors={formErrors}
+              payment_options={payment_options}
+            />
+          </div>
+        )}
 
         {/* Notes with Mic */}
         <NotesInput notes={notes} setNotes={setNotes} />
 
-        <SubmitButton />
+        <SubmitButton isEdit={isEdit} />
       </form>
     </div>
   );

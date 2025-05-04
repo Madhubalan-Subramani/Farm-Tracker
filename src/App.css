@@ -6,17 +6,17 @@ body {
 }
 
 .appBgColor {
-  background-color: #008b05;
+  background-color: #008505;
   color: white;
 }
 
-input[type="text"], textarea {
+input[type="text"],
+textarea {
   font-weight: 500;
   font-family: "Noto Sans Tamil", sans-serif;
 }
 
-
 .tamil-text {
-  font-family: 'Noto Sans Tamil', sans-serif;
+  font-family: "Noto Sans Tamil", sans-serif;
   color: #333;
 }

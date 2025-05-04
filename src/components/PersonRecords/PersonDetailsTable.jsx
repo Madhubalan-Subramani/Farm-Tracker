@@ -49,22 +49,15 @@ const PersonDetailsTable = ({ records }) => {
                       : "-"}
                   </td>
                   <td>{formatAmount(item.total_amount)} /-</td>
-                  <td>
-                    {item.is_paid
-                      ? `${formatAmount(item.paid_amount)} /-`
-                      : "-"}
-                  </td>
+                  <td>{`${formatAmount(item.paid_amount)} /-`}</td>
                   <td className="balanceAmount">
-                    {formatAmount(
-                      item.total_amount - (item.is_paid ? item.paid_amount : 0)
-                    )}{" "}
-                    /-
+                    {formatAmount(item.total_amount - item.paid_amount)} /-
                   </td>
                   <td>
-                    {item.is_paid && item.modeofpayment_image ? (
-                      <img src={item.modeofpayment_image} alt="payment mode" />
-                    ) : (
+                    {item.modeofpayment_image === null ? (
                       "-"
+                    ) : (
+                      <img src={item.modeofpayment_image} alt="payment mode" />
                     )}
                   </td>
                   <td>{item.notes || "-"}</td>

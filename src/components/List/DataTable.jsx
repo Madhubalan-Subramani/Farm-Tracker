@@ -1,5 +1,7 @@
 import React from "react";
 import formatAmount from "../../utils/formatAmount";
+import { useNavigate } from "react-router-dom";
+
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -25,7 +27,13 @@ const renderName = (name) => {
   });
 };
 
-const DataTable = ({ data, indexOfFirstRecord }) => {
+const DataTable = ({ data, indexOfFirstRecord, onDelete}) => {
+  const navigate = useNavigate();
+
+  const handleEdit = (record) => {
+    navigate("/add", { state: { editData: record, isEdit: true } });
+  };
+  
   return (
     <div className="table-wrapper">
       <table className="data-table">
@@ -66,14 +74,14 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
                 <td>{item.phone_number || "-"}</td>
                 <td>{formatAmount(item.total_amount)} /-</td>
                 <td>
-                  {item.is_paid ? `${formatAmount(item.paid_amount)} /-` : "-"}
+                  {item.paid_amount == "0" || item.paid_amount === null
+                    ? "-"
+                    : `${formatAmount(item.paid_amount)} /-`}
                 </td>
                 <td>
-                  {item.is_paid && item.modeofpayment_image ? (
-                    <img src={item.modeofpayment_image} alt="payment mode" />
-                  ) : (
-                    "-"
-                  )}
+                  {item.modeofpayment_image === null
+                    ? "-"
+                    : <img src={item.modeofpayment_image} alt="payment mode" />}
                 </td>
                 <td className="notes-cell">
                   {item.notes ? (
@@ -90,8 +98,8 @@ const DataTable = ({ data, indexOfFirstRecord }) => {
                   )}
                 </td>
                 <td>
-                  <button className="edit-btn">Edit</button>
-                  <button className="delete-btn">Delete</button>
+                <button className="edit-btn" onClick={() => handleEdit(item)}>Edit</button>
+                <button className="delete-btn" onClick={() => onDelete(item.id)}>Delete</button>
                 </td>
               </tr>
             ))

@@ -1,30 +1,32 @@
+/* ===========================
+   NAVBAR MAIN CONTAINER
+   =========================== */
 .navbar {
   display: flex;
   position: fixed;
   top: 0;
   width: 100%;
+  height: 60px;
+  padding: 10px 20px;
   z-index: 1000;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  height: 60px;
-  background-color: #4caf50;
+  background-color: #008505;
   transition: background-color 0.3s ease;
 }
 
-.navbar-light {
-  background-color: #008505;
-}
-
-.navbar-dark {
-  background-color: #19651c;
-}
-
+/* ===========================
+     NAVBAR LOGO
+     =========================== */
 .navbar-logo {
   font-size: 24px;
   color: white;
+  cursor: pointer;
 }
 
+/* ===========================
+     NAVBAR RIGHT OPTIONS SECTION
+     =========================== */
 .navbar-options {
   display: flex;
   gap: 15px;
@@ -37,7 +39,7 @@
   border: none;
   color: white;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
 }
 
 .navbar-btn:hover {
@@ -45,9 +47,12 @@
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 18px;
 }
 
+/* ===========================
+     USER AVATAR ICON / IMAGE
+     =========================== */
 .user-avatar {
   width: 35px;
   height: 35px;
@@ -60,8 +65,10 @@
   color: #333;
   font-weight: bold;
   font-size: 16px;
+  overflow: hidden;
 }
 
+/* Important: For user image avatar */
 .user-avatar img {
   width: 100%;
   height: 100%;
@@ -69,24 +76,38 @@
   object-fit: cover;
 }
 
-/* side bar */
+/* ===========================
+   ADD RECORD BUTTON STYLES
+   =========================== */
+.navbar-button {
+  background-color: #ffffff;
+  color: #008505;
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
+.navbar-button:hover {
+  background-color: #e6ffe6;
+}
+
+/* ===========================
+     SIDEBAR THAT OPENS FROM RIGHT
+     =========================== */
 .user-sidebar {
   position: fixed;
   right: 0;
   top: 60px;
-  height: 100%;
   width: 250px;
+  height: 100%;
   background: white;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
   z-index: 100;
   border-top-left-radius: 4px;
   transition: all 0.3s ease-in-out;
-}
-
-.navbar-dark .user-sidebar {
-  background: #222;
-  color: white;
 }
 
 .sidebar-content {
@@ -101,6 +122,9 @@
   border-top-left-radius: 4px;
 }
 
+/* ===========================
+     LOGOUT BUTTON STYLES
+     =========================== */
 .logout-btn {
   margin-top: 20px;
   background: #f44336;
@@ -116,3 +140,5 @@
 .logout-btn:hover {
   background: #d32f2f;
 }
+
+

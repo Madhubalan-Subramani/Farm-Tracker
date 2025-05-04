@@ -36,11 +36,11 @@ const PersonRecords = () => {
     );
 
     let normalizedData = filtered.map((item) => {
-        if (item.is_paid === false) {
-          return { ...item, paid_amount: 0 };
-        }
-        return item;
-      });
+      if (item.is_paid === false) {
+        return { ...item, paid_amount: item.paid_amount ?? 0, };
+      }
+      return item;
+    });
 
     if (paymentFilter === "paid") {
       filtered = normalizedData.filter(

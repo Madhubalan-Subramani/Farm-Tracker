@@ -1,61 +1,62 @@
 import React, { useState, useEffect } from "react";
-import { FaSun, FaMoon, FaGlobe, FaUserAlt } from "react-icons/fa";
-import { auth, db } from "../../firebase/setup";
-import { doc, getDoc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import "./NavBar.css";
-import Images from "../../assets/Images";
+import { FaSearch, FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/setup";
+import Images from "../../assets/Images";
+import "./NavBar.css";
 
 const NavBar = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleDarkMode = () => setDarkMode(!darkMode);
-  const toggleSidebar = () => setShowSidebar(!showSidebar);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "users", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            setUserData(userSnap.data());
-          } else {
-            console.log("No user data found");
-            setUserData(null);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setUserData(null);
-        }
-      } else {
-        setUserData(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [currentUser, setCurrentUser] = useState(null); // Firebase authenticated user
+  const [userProfile, setUserProfile] = useState(null); // Additional user data from Firestore
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Toggle sidebar visibility
 
   const navigate = useNavigate();
 
-  const getUserAvatar = () => {
-    if (userData) {
-      if (userData.profilePicture) {
+  // Toggle sidebar open/close
+  const toggleSidebar = () => setIsSidebarVisible(!isSidebarVisible);
+
+  // Fetch user data when auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+      if (user) {
+        try {
+          const userDocRef = doc(db, "users", user.uid);
+          const userSnapshot = await getDoc(userDocRef);
+          if (userSnapshot.exists()) {
+            setUserProfile(userSnapshot.data());
+          } else {
+            console.log("No user data found");
+            setUserProfile(null);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUserProfile(null);
+        }
+      } else {
+        setUserProfile(null);
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, []);
+
+  // Render avatar: profile picture > initial > icon fallback
+  const renderUserAvatar = () => {
+    if (userProfile) {
+      if (userProfile.profilePicture) {
         return (
           <img
-            src={userData.profilePicture}
+            src={userProfile.profilePicture}
             alt="User"
             className="user-avatar"
           />
         );
-      } else if (userData.name) {
+      } else if (userProfile.name) {
         return (
-          <div className="user-avatar">{userData.name[0].toUpperCase()}</div>
+          <div className="user-avatar">{userProfile.name[0].toUpperCase()}</div>
         );
       }
     }
@@ -63,40 +64,46 @@ const NavBar = () => {
   };
 
   return (
-    <nav className={`navbar ${darkMode ? "navbar-dark" : "navbar-light"}`}>
-      <h1 className="navbar-logo">Form Tracker</h1>
+    <nav className="navbar">
+      {/* Logo */}
+      <h1 className="navbar-logo" onClick={() => navigate("/home")}>
+        Farm Tracker
+      </h1>
 
+      {/* Right-side options */}
       <div className="navbar-options">
-        <button onClick={toggleDarkMode} className="navbar-btn">
-          {darkMode ? <FaSun className="icon" /> : <FaMoon className="icon" />}
+        <button onClick={() => navigate("/add")} className="navbar-button">
+          Add Record
         </button>
-        <button className="navbar-btn">
-          <FaGlobe className="icon" />
+
+        <button className="navbar-btn" onClick={() => navigate("/personrecords")}>
+          <FaSearch className="icon" />
         </button>
+
         <button className="navbar-btn" onClick={toggleSidebar}>
-          {getUserAvatar()}
+          {renderUserAvatar()}
         </button>
       </div>
 
-      {/* SideBar */}
-      {showSidebar && (
+      {/* Sidebar: Profile Info or Welcome Message */}
+      {isSidebarVisible && (
         <div className="user-sidebar">
-          {user ? (
+          {currentUser ? (
             <>
               <img
-                src={userData?.profilePicture || Images.defaultAvatar}
+                src={userProfile?.profilePicture || Images.defaultAvatar}
                 alt="User"
                 className="sidebar-avatar"
               />
               <div className="sidebar-content">
-                <h3>{userData?.name}</h3>
-                <p>{userData?.email}</p>
-                <p>{userData?.phone}</p>
+                <h3>{userProfile?.name}</h3>
+                <p>{userProfile?.email}</p>
+                <p>{userProfile?.phone}</p>
                 <button
                   className="logout-btn"
                   onClick={() => {
                     auth.signOut();
-                    setShowSidebar(false);
+                    setIsSidebarVisible(false);
                     navigate("/signin");
                   }}
                 >

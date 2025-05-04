@@ -4,7 +4,6 @@ import { auth } from "../../firebase/setup";
 import "./Home.css";
 import Images from "../../assets/Images";
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -12,7 +11,9 @@ const Home = () => {
     const handlePopState = (e) => {
       e.preventDefault();
 
-      const confirmed = window.confirm("Are you sure you want to go back to Sign In?");
+      const confirmed = window.confirm(
+        "Are you sure you want to go back to Sign In?"
+      );
       if (confirmed) {
         auth.signOut();
         navigate("/signin", { replace: true });
@@ -30,7 +31,11 @@ const Home = () => {
   const cards = [
     { title: "List Page", image: Images.logo_list, path: "/list" },
     { title: "Add Page", image: Images.logo_add_data, path: "/add" },
-    { title: "Person Data", image: Images.logo_personData, path: "/personrecords" },
+    {
+      title: "Person Data",
+      image: Images.logo_personData,
+      path: "/personrecords",
+    },
     { title: "Add Payment", image: Images.logo_payement, path: "/payment" },
   ];
 

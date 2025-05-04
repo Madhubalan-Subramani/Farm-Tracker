@@ -1,8 +1,7 @@
 import React from "react";
-import formatAmount  from "../../utils/formatAmount"
+import formatAmount from "../../utils/formatAmount";
 
 const SummaryTable = ({ totalAmount, paidAmount, balanceAmount }) => {
-
   return (
     <div className="summary-wrapper">
       <h2 className="summary-title">Summary</h2>
@@ -18,13 +17,12 @@ const SummaryTable = ({ totalAmount, paidAmount, balanceAmount }) => {
           <tr>
             <td> {formatAmount(totalAmount)} /-</td>
             <td> {formatAmount(paidAmount)} /-</td>
-            <td style={{color:"red"}}> {formatAmount(balanceAmount)} /-</td>
+            <td style={{ color: "red" }}> {formatAmount(balanceAmount)} /-</td>
           </tr>
         </tbody>
       </table>
     </div>
   );
 };
-
 
 export default SummaryTable;

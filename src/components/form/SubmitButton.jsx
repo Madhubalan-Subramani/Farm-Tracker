@@ -1,10 +1,10 @@
 import React from "react";
 
-const SubmitButton = () => {
+const SubmitButton = ({ isEdit }) => {
   return (
     <button type="submit" className="submit-btn">
-    Submit
-  </button>
+      {isEdit ? "Update Existing Record" : "Add New Record"}
+    </button>
   );
 };
 

@@ -8,6 +8,9 @@ import SummaryTable from "../components/List/SummaryTable";
 import PaginationButtons from "../components/List/PaginationButtons";
 import { filterDataByDateTab } from "../utils/dateTab";
 import { summaryCalculation } from "../utils/summaryCalculation";
+import { deleteDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { db } from "../firebase/setup";
 import "./ListPage.css";
 
 const DateNavigator = ({ dateOffset, setDateOffset }) => {
@@ -69,11 +72,29 @@ const ListPage = () => {
   const { totalAmount, paidAmount, balanceAmount } =
     summaryCalculation(sortedData);
 
-    const indexOfLastRecord = currentPage * recordsPerPage;
-    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = sortedData.slice(indexOfFirstRecord, indexOfLastRecord);
-  
-    const totalPages = Math.ceil(sortedData.length / recordsPerPage); 
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = sortedData.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+
+  const totalPages = Math.ceil(sortedData.length / recordsPerPage);
+
+  const handleDeleteRecord = async (id) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this record?"
+      );
+      if (confirmDelete) {
+        const auth = getAuth();
+        const docRef = doc(db, "users", auth.currentUser.uid, "userData", id);
+        await deleteDoc(docRef);
+      } else return;
+    } catch (err) {
+      console.error("Error deleting record:", err);
+    }
+  };
 
   return (
     <div className="listpage-container">
@@ -92,6 +113,7 @@ const ListPage = () => {
       <DataTable
         data={currentRecords}
         indexOfFirstRecord={indexOfFirstRecord}
+        onDelete={handleDeleteRecord}
       />
       <PaginationButtons
         currentPage={currentPage}

@@ -1,5 +1,6 @@
 const formatAmount = (amount) => {
-  return amount.toLocaleString();
+  const safeAmount = typeof amount === "number" ? amount : 0;
+  return safeAmount.toLocaleString("en-IN");
 };
 
-export default formatAmount
+export default formatAmount;
