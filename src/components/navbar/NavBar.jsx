@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaUserAlt } from "react-icons/fa";
+import { FaPlus, FaSearch, FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase/setup";
-import Images from "../../assets/Images";
+import allImages from "../../assets/CloudinaryImages";
 import "./NavBar.css";
 
 const NavBar = () => {
@@ -72,13 +72,27 @@ const NavBar = () => {
 
       {/* Right-side options */}
       <div className="navbar-options">
-        <button onClick={() => navigate("/add")} className="navbar-button">
-          Add Record
-        </button>
+        {currentUser ? (
+          <>
+            <button onClick={() => navigate("/add")} className="navbar-button">
+              Add Record
+            </button>
 
-        <button className="navbar-btn" onClick={() => navigate("/personrecords")}>
-          <FaSearch className="icon" />
-        </button>
+            <button
+              className="navbar-btn nav-plusIcon"
+              onClick={() => navigate("/add")}
+            >
+              <FaPlus className="icon" />
+            </button>
+
+            <button
+              className="navbar-btn"
+              onClick={() => navigate("/personrecords")}
+            >
+              <FaSearch className="icon" />
+            </button>
+          </>
+        ) : null}
 
         <button className="navbar-btn" onClick={toggleSidebar}>
           {renderUserAvatar()}
@@ -91,7 +105,10 @@ const NavBar = () => {
           {currentUser ? (
             <>
               <img
-                src={userProfile?.profilePicture || Images.defaultAvatar}
+                src={
+                  userProfile?.profilePicture ||
+                  allImages.otherImages.defaultAvatar
+                }
                 alt="User"
                 className="sidebar-avatar"
               />

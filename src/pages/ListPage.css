@@ -3,9 +3,6 @@
 ==================================== */
 .listpage-container {
   padding: 2rem;
-  background-color: #f9fafb;
-  min-height: 100vh;
-  margin-top: 60px;
 }
 
 .listpage-title {
@@ -223,6 +220,10 @@ img {
   white-space: nowrap;
 }
 
+.active {
+  border-radius: 5px;
+}
+
 .tab-btn {
   border-right: 1px solid #ccc;
 }
@@ -256,12 +257,21 @@ img {
   cursor: pointer;
 }
 
+.pagination-btn:disabled,
+.pagination-btn.disabled {
+  background-color: #ccc;
+  color: rgb(37, 37, 37);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 /* ====================================
    Date Navigator Styles
 ==================================== */
 .date-navigator-row {
   display: flex;
   gap: 20px;
+  align-items: flex-end;
 }
 
 .date-navigator {
@@ -269,10 +279,9 @@ img {
   gap: 5px;
 }
 
-.nav-button {
+.date-nav-button {
   width: 40px;
   height: 40px;
-  padding: 10px;
   border-radius: 50%;
   background-color: transparent;
   color: #000;
@@ -281,14 +290,15 @@ img {
   align-items: center;
   cursor: pointer;
   transition: background-color 0.3s;
+  border: none;
 }
 
-.nav-button:hover {
-  background-color: #ccc;
-  color: #fff;
+.date-nav-button:hover {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
 }
 
-.nav-button:disabled {
+.date-nav-button:disabled {
   background-color: transparent;
   cursor: not-allowed;
   color: #ccc;
@@ -300,4 +310,29 @@ img {
 .table-container {
   width: 100%;
   overflow-x: auto;
+}
+
+@media (max-width: 950px) {
+  .tabs-container {
+    display: grid;
+    justify-items: end;
+    justify-content: end;
+    gap: 10px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+
+  .tabs-container h2 {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .summary-table {
+    width: 90%;
+  }
 }

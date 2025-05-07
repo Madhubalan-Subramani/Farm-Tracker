@@ -36,6 +36,8 @@
 }
 
 .mic-icon {
+  position: absolute;
+  right: 20px;
   background: none;
   border: none;
   outline: none;
@@ -100,10 +102,6 @@
 /* -----------------------------------
      🧱 Layout Containers
   ------------------------------------ */
-.person-records-container {
-  margin-top: 80px;
-}
-
 .record-layout {
   display: flex;
   width: 100%;
@@ -257,4 +255,37 @@
 .both-paid-records {
   background-color: #00008d;
   color: white;
+}
+
+@media (max-width: 950px) {
+  .record-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+  }
+
+  .right-panel {
+    width: 100%;
+    margin-top: 10%;
+  }
+
+  .tabs-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sort-buttons {
+    margin-top: 12px;
+  }
+
+  .tabs {
+    margin-top: 12px;
+  }
+
+  .person-summary-card {
+    padding: 25px 50px;
+  }
 }

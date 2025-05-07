@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/setup";
 import "./Home.css";
-import Images from "../../assets/Images";
+import allImages from "../../assets/CloudinaryImages";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ const Home = () => {
   useEffect(() => {
     const handlePopState = (e) => {
       e.preventDefault();
-
       const confirmed = window.confirm(
         "Are you sure you want to go back to Sign In?"
       );
@@ -23,20 +22,30 @@ const Home = () => {
     };
 
     window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+    return () => window.removeEventListener("popstate", handlePopState);
   }, [navigate]);
 
   const cards = [
-    { title: "List Page", image: Images.logo_list, path: "/list" },
-    { title: "Add Page", image: Images.logo_add_data, path: "/add" },
     {
-      title: "Person Data",
-      image: Images.logo_personData,
+      title: "List Page",
+      image: allImages.homepageImages.logo_list,
+      path: "/list",
+    },
+    {
+      title: "Add Page",
+      image: allImages.homepageImages.logo_add_data,
+      path: "/add",
+    },
+    {
+      title: "Person Records",
+      image: allImages.homepageImages.logo_personData,
       path: "/personrecords",
     },
-    { title: "Add Payment", image: Images.logo_payement, path: "/payment" },
+    {
+      title: "Add Payment",
+      image: allImages.homepageImages.logo_payement,
+      path: "/payment",
+    },
   ];
 
   return (
@@ -44,10 +53,10 @@ const Home = () => {
       {cards.map((card, index) => (
         <div
           key={index}
-          className="home-card"
+          className={`home-card home-card-animate-${index + 1}`}
           onClick={() => navigate(card.path)}
         >
-          <img src={card.image} alt={card.title} className="home-card-img" />
+          <img src={card.image} alt={card.title} className="home-card-image" />
           <h3 className="home-card-title">{card.title}</h3>
         </div>
       ))}

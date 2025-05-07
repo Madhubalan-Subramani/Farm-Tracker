@@ -1,44 +1,192 @@
-.signin-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  margin-top: 100px;
-
-}
-
-.signin-form {
+/* ========== LAYOUT ========== */
+.signin-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  background-image: url("https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601823/signin_teedof.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px 60px;
+  gap: 40px;
+  animation: fadeInBg 1.5s ease forwards;
 }
 
-.signin-form label {
-  margin-bottom: 8px;
+
+/* ========== CARD ========== */
+.signin-card {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: slideUp 1s ease-out;
 }
 
-.signin-form input {
+.signin-title {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #333;
+  animation: fadeIn 2s ease-in;
+}
+
+.quote-box {
+  margin-top: 10px;
+  font-style: italic;
+  color: #333;
+  animation: fadeIn 3.5s linear;
+}
+
+.quote {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+/* ========== FORM ========== */
+.signin-form {
+  text-align: left;
+  animation: fadeIn 1.5s ease;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.form-group input {
+  width: 100%;
   padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 4px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #4caf50;
+.form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-group {
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeInInput 0.8s ease forwards;
+}
+
+.form-group:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+@keyframes fadeInInput {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ========== BUTTON ========== */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-button:disabled {
-  background-color: #ccc;
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.submit-btn:disabled {
+  background-color: #999;
   cursor: not-allowed;
 }
 
+/* ========== LOADER ========== */
+.loader {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  animation: fadeIn 0.4s ease-in;
+}
+
+/* ========== ERRORS ========== */
 .error {
-  color: red;
+  animation: fadeIn 0.4s ease-in;
+}
+
+/* ========== LINKS ========== */
+.extra-links {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.extra-links p {
+  margin-bottom: 10px;
+}
+
+.extra-links .link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBg {
+  from {
+    background-color: #fff;
+  }
+  to {
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
+  }
 }

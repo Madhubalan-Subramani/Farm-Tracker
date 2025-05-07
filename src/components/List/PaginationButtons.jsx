@@ -1,6 +1,7 @@
 import React from "react";
 
 const PaginationButtons = ({ currentPage, setCurrentPage, totalPages }) => {
+  if (totalPages === 0) return null;
   const handlePrevious = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

@@ -17,13 +17,13 @@ const DateNavigator = ({ dateOffset, setDateOffset }) => {
   return (
     <div className="date-navigator">
       <button
-        className="nav-button"
+        className="date-nav-button"
         onClick={() => setDateOffset(dateOffset + 1)}
       >
         <FaChevronLeft />
       </button>
       <button
-        className="nav-button"
+        className="date-nav-button"
         onClick={() => setDateOffset(dateOffset - 1)}
         disabled={dateOffset === 0}
       >
@@ -96,6 +96,11 @@ const ListPage = () => {
     }
   };
 
+  const handleDateOffsetChange = (newOffset) => {
+    setDateOffset(newOffset);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="listpage-container">
       <div className="tabs-container">
@@ -105,7 +110,7 @@ const ListPage = () => {
         <div className="date-navigator-row">
           <DateNavigator
             dateOffset={dateOffset}
-            setDateOffset={setDateOffset}
+            setDateOffset={handleDateOffsetChange}
           />
           <DateTabs dateTab={dateTab} setDateTab={handleDateTabChange} />
         </div>

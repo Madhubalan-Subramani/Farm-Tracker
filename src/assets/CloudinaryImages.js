@@ -20,13 +20,16 @@ const cultivatorImages = {
 const otherImages = {
   defaultAvatar:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745512974/default_profile_picture_ph0rdq.jpg",
+  signInImage : "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601823/signin_teedof.jpg",
+  signUpImage : "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/signUp_background_fhmufv.png",
+  homeImage :"https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/home_wallpaper_uo060l.png",
 };
 
 const homepageImages = {
   logo_add_data:
-    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745512853/logo-add_data_l5khys.png",
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746364391/logo-add_data_l5khys.png",
   logo_list:
-    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745512853/logo-list_of_data_f8ksy9.png",
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746361680/logo-list_of_data_f8ksy9.png",
   logo_personData:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745512853/logo-person_detail_ouipxg.png",
   logo_payement:

@@ -23,7 +23,13 @@ const PaymentNameSection = ({
       />
       <button
         type="button"
-        style={{ marginTop: "12px" }}
+        className="submit-btn"
+        style={{
+          marginTop: formErrors.name ? "-10px" : "12px",
+          width: "fit-content",
+          fontSize: "14px",
+          fontWeight: "400",
+        }}
         onClick={handleSearchClick}
       >
         Search

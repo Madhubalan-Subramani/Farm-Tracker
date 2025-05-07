@@ -6,7 +6,6 @@
   justify-content: center;
   padding: 2rem;
   background: #f4f6f8;
-  margin-top: 60px;
 }
 
 /* ============================
@@ -137,7 +136,6 @@ input[type="date"]:invalid {
 .mic-icon.listening {
   color: red;
 }
-
 
 /* ============================
      Toggle Switch
@@ -273,7 +271,7 @@ input[type="date"]:invalid {
 /* ============================
      Name Suggestion
   ============================ */
-  
+
 .suggestions {
   margin-top: 4px;
   border: 1px solid #ccc;
@@ -283,7 +281,7 @@ input[type="date"]:invalid {
   list-style: none;
   padding-left: 0;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   position: absolute;
   width: 100%;
   top: 70px;

@@ -50,6 +50,10 @@
   font-size: 18px;
 }
 
+.nav-plusIcon {
+  display: none;
+}
+
 /* ===========================
      USER AVATAR ICON / IMAGE
      =========================== */
@@ -116,7 +120,7 @@
 
 .sidebar-avatar {
   width: 100%;
-  height: 170px;
+  height: 250px;
   object-fit: cover;
   display: block;
   border-top-left-radius: 4px;
@@ -141,4 +145,50 @@
   background: #d32f2f;
 }
 
+@media (min-width: 480px){
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .logout-btn {
+    padding: 12px 15px;
+  }
+  
+}
+
+/* Mobile (portrait and landscape, up to 768px) */
+@media (max-width: 768px) {
+  .navbar-button {
+    display: none;
+  }
+
+  .nav-plusIcon {
+    display: block;
+  }
+
+  .user-sidebar {
+    width: 50%;
+  }
+}
+
+/* Tablets (portrait & landscape, 769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .user-sidebar {
+    width: 40%;
+  }
+}
+
+/* Laptops (standard, 1025px) */
+@media (min-width: 1025px) {
+  .user-sidebar {
+    width: 30%;
+  }
+}
+
+
+@media (min-width: 1300px) {
+  .user-sidebar {
+    width: 20%;
+  }
+}
 
