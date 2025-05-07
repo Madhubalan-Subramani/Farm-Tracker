@@ -34,11 +34,17 @@
 =================================== */
 .home-card {
   backdrop-filter: blur(16px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.05)
+  );
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0.5px rgba(255, 255, 255, 0.4);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 0.5px rgba(255, 255, 255, 0.4);
+  transition: transform 0.4s ease, box-shadow 0.4s ease,
+    backdrop-filter 0.4s ease;
   width: 100%;
   max-width: 300px;
   cursor: pointer;
@@ -52,7 +58,6 @@
   transform: scale(0.95);
   animation: zoomFadeIn 0.8s forwards;
 }
-
 
 /* Hover Effects */
 .home-card:hover {

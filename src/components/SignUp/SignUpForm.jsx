@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { cloudinaryImageUpload } from "../../utils/cloudinaryImageUpload";
 
-// ✅ Helper to save user info in Firestore after successful sign-up
+// Helper to save user info in Firestore after successful sign-up
 const createUserInFirestore = async (
   user,
   name,
@@ -22,8 +22,8 @@ const createUserInFirestore = async (
     email,
     phone,
     profilePicture: profilePictureUrl,
-    role: "user",              // default role
-    isVerified: false,         // could be used later for email/phone verification
+    role: "user", // default role
+    isVerified: false, // could be used later for email/phone verification
     createdAt: new Date(),
     updatedAt: new Date(),
     lastLogin: new Date(),
@@ -31,9 +31,8 @@ const createUserInFirestore = async (
 };
 
 const SignUpForm = () => {
-  const navigate = useNavigate(); // For redirecting after sign-up
+  const navigate = useNavigate();
 
-  // ✅ Form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,13 +41,13 @@ const SignUpForm = () => {
     profilePic: null,
   });
 
-  // ✅ Error states and loading
+  // Error states and loading
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
-  // ✅ Update input fields
+  // Update input fields
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -75,18 +74,18 @@ const SignUpForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ✅ Submit handler for form
+  // Submit handler for form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitError(""); // Clear previous errors
+    setSubmitError("");
 
-    if (!validate()) return; // Stop if validation fails
+    if (!validate()) return;
 
     setLoading(true);
     setStatusMessage(`Creating account for ${formData.name}...`);
 
     try {
-      // ✅ Step 1: Create user in Firebase Auth
+      // Step 1: Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
@@ -94,14 +93,14 @@ const SignUpForm = () => {
       );
       const user = userCredential.user;
 
-      // ✅ Step 2: Upload profile picture if provided
+      // Step 2: Upload profile picture if provided
       let profilePictureUrl = "";
       if (formData.profilePic) {
         setStatusMessage("Uploading profile picture...");
         profilePictureUrl = await cloudinaryImageUpload(formData.profilePic);
       }
 
-      // ✅ Step 3: Save user info in Firestore
+      // Step 3: Save user info in Firestore
       setStatusMessage("Saving user data...");
       await createUserInFirestore(
         user,
@@ -124,7 +123,7 @@ const SignUpForm = () => {
       // ✅ Small delay to show success message
       setTimeout(() => navigate("/home"), 1000);
     } catch (err) {
-      console.error("Error during sign up:", err);
+      // console.error("Error during sign up:", err);
       setSubmitError("Failed to create account. Please try again.");
     } finally {
       setLoading(false);
@@ -138,7 +137,9 @@ const SignUpForm = () => {
       <form className="signup-form" onSubmit={handleSubmit}>
         {/* Name Input */}
         <div className="form-grp">
-          <label htmlFor="name">Name<span className="required">*</span></label>
+          <label htmlFor="name">
+            Name<span className="required">*</span>
+          </label>
           <input
             type="text"
             id="name"
@@ -153,7 +154,9 @@ const SignUpForm = () => {
 
         {/* Email Input */}
         <div className="form-grp">
-          <label htmlFor="email">Email<span className="required">*</span></label>
+          <label htmlFor="email">
+            Email<span className="required">*</span>
+          </label>
           <input
             type="email"
             id="email"
@@ -168,7 +171,9 @@ const SignUpForm = () => {
 
         {/* Phone Input */}
         <div className="form-grp">
-          <label htmlFor="phone">Phone<span className="required">*</span></label>
+          <label htmlFor="phone">
+            Phone<span className="required">*</span>
+          </label>
           <input
             type="text"
             id="phone"
@@ -195,7 +200,12 @@ const SignUpForm = () => {
         />
 
         {/* Submit Button */}
-        <button className="submit-btn" type="submit" disabled={loading} style={{marginTop: "0"}}>
+        <button
+          className="submit-btn"
+          type="submit"
+          disabled={loading}
+          style={{ marginTop: "0" }}
+        >
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
 

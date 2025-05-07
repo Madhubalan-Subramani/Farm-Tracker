@@ -1,30 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase/setup";
 import "./Home.css";
 import allImages from "../../assets/CloudinaryImages";
 
 const Home = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handlePopState = (e) => {
-      e.preventDefault();
-      const confirmed = window.confirm(
-        "Are you sure you want to go back to Sign In?"
-      );
-      if (confirmed) {
-        auth.signOut();
-        navigate("/signin", { replace: true });
-      } else {
-        navigate("/home", { replace: true });
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [navigate]);
-
   const cards = [
     {
       title: "List Page",

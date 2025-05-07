@@ -1,31 +1,33 @@
-import React, { useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import useUserData from "../hooks/useUserData";
-import DateTabs from "../components/List/DateTabs";
-import SortButtonsTabs from "../components/List/SortButtonTabs";
-import DataTable from "../components/List/DataTable";
-import SummaryTable from "../components/List/SummaryTable";
-import PaginationButtons from "../components/List/PaginationButtons";
-import { filterDataByDateTab } from "../utils/dateTab";
-import { summaryCalculation } from "../utils/summaryCalculation";
-import { deleteDoc, doc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { db } from "../firebase/setup";
-import "./ListPage.css";
+// ✅ Importing dependencies and components
+import React, { useState } from "react"; // Step 1: React and useState for local state management
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Step 2: Chevron icons for date navigation
+import useUserData from "../hooks/useUserData"; // Step 3: Custom hook to fetch user-specific data from Firebase
+import DateTabs from "../components/List/DateTabs"; // Step 4: Tabs for filtering by day, week, month
+import SortButtonsTabs from "../components/List/SortButtonTabs"; // Step 5: Tabs to switch between ascending/descending sort order
+import DataTable from "../components/List/DataTable"; // Step 6: Component to show the records list
+import SummaryTable from "../components/List/SummaryTable"; // Step 7: Component to show total/paid/balance summary
+import PaginationButtons from "../components/List/PaginationButtons"; // Step 8: Pagination control component
+import { filterDataByDateTab } from "../utils/dateTab"; // Step 9: Utility to filter data based on selected date range
+import { summaryCalculation } from "../utils/summaryCalculation"; // Step 10: Utility to calculate total, paid, and balance amounts
+import { deleteDoc, doc } from "firebase/firestore"; // Step 11: Firestore functions to delete documents
+import { getAuth } from "firebase/auth"; // Step 12: To access current user ID from Firebase Auth
+import { db } from "../firebase/setup"; // Step 13: Firebase database reference
+import "./ListPage.css"; // Step 14: Import styling for this page
 
+// ✅ Component for date navigation using offset buttons
 const DateNavigator = ({ dateOffset, setDateOffset }) => {
   return (
     <div className="date-navigator">
       <button
         className="date-nav-button"
-        onClick={() => setDateOffset(dateOffset + 1)}
+        onClick={() => setDateOffset(dateOffset + 1)} // Previous day/week/month
       >
         <FaChevronLeft />
       </button>
       <button
         className="date-nav-button"
-        onClick={() => setDateOffset(dateOffset - 1)}
-        disabled={dateOffset === 0}
+        onClick={() => setDateOffset(dateOffset - 1)} // Next day/week/month
+        disabled={dateOffset === 0} // Disable when at current date
       >
         <FaChevronRight />
       </button>
@@ -33,23 +35,28 @@ const DateNavigator = ({ dateOffset, setDateOffset }) => {
   );
 };
 
+// ✅ Main ListPage component
 const ListPage = () => {
-  const { data, loading } = useUserData();
-  const [dateTab, setDateTab] = useState("day");
-  const [sortOrder, setSortOrder] = useState("ascending");
-  const [dateOffset, setDateOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 8;
+  const { data, loading } = useUserData(); // Step 15: Fetch data from Firebase for logged-in user
+  const [dateTab, setDateTab] = useState("day"); // Step 16: Track which tab is selected (day/week/month)
+  const [sortOrder, setSortOrder] = useState("ascending"); // Step 17: Track sorting order
+  const [dateOffset, setDateOffset] = useState(0); // Step 18: Used to navigate dates forward/backward
+  const [currentPage, setCurrentPage] = useState(1); // Step 19: Track current pagination page
+  const recordsPerPage = 8; // Step 20: Set how many records to show per page
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>; // Step 21: Show loading while fetching data
 
+  // ✅ Handler for changing the date tab (day/week/month)
   const handleDateTabChange = (newTab) => {
     setDateTab(newTab);
-    setDateOffset(0);
-    setCurrentPage(1);
+    setDateOffset(0); // Reset offset when tab changes
+    setCurrentPage(1); // Reset pagination
   };
 
+  // ✅ Step 22: Filter data based on selected date tab and offset
   const dateWiseFilteredData = filterDataByDateTab(data, dateTab, dateOffset);
+
+  // ✅ Step 23: Sort the filtered data by date/time
   const sortedData = dateWiseFilteredData.sort((a, b) => {
     const dateA = a.date;
     const dateB = b.date;
@@ -69,18 +76,20 @@ const ListPage = () => {
     }
   });
 
+  // ✅ Step 24: Calculate summary (total, paid, balance)
   const { totalAmount, paidAmount, balanceAmount } =
     summaryCalculation(sortedData);
 
+  // ✅ Step 25: Pagination logic
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = sortedData.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
-
   const totalPages = Math.ceil(sortedData.length / recordsPerPage);
 
+  // ✅ Step 26: Delete a single record from Firebase
   const handleDeleteRecord = async (id) => {
     try {
       const confirmDelete = window.confirm(
@@ -92,15 +101,17 @@ const ListPage = () => {
         await deleteDoc(docRef);
       } else return;
     } catch (err) {
-      console.error("Error deleting record:", err);
+      // console.error("Error deleting record:", err);
     }
   };
 
+  // ✅ Step 27: Handle date offset change
   const handleDateOffsetChange = (newOffset) => {
     setDateOffset(newOffset);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page on date change
   };
 
+  // ✅ Step 28: Final return – Render UI components
   return (
     <div className="listpage-container">
       <div className="tabs-container">
@@ -115,16 +126,19 @@ const ListPage = () => {
           <DateTabs dateTab={dateTab} setDateTab={handleDateTabChange} />
         </div>
       </div>
+
       <DataTable
         data={currentRecords}
         indexOfFirstRecord={indexOfFirstRecord}
         onDelete={handleDeleteRecord}
       />
+
       <PaginationButtons
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
       />
+
       <SummaryTable
         totalAmount={totalAmount}
         paidAmount={paidAmount}

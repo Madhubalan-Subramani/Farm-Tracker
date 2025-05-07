@@ -20,9 +20,12 @@ const cultivatorImages = {
 const otherImages = {
   defaultAvatar:
     "https://res.cloudinary.com/dfvbqnou6/image/upload/v1745512974/default_profile_picture_ph0rdq.jpg",
-  signInImage : "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601823/signin_teedof.jpg",
-  signUpImage : "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/signUp_background_fhmufv.png",
-  homeImage :"https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/home_wallpaper_uo060l.png",
+  signInImage:
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601823/signin_teedof.jpg",
+  signUpImage:
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/signUp_background_fhmufv.png",
+  homeImage:
+    "https://res.cloudinary.com/dfvbqnou6/image/upload/v1746601825/home_wallpaper_uo060l.png",
 };
 
 const homepageImages = {

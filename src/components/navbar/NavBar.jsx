@@ -28,11 +28,11 @@ const NavBar = () => {
           if (userSnapshot.exists()) {
             setUserProfile(userSnapshot.data());
           } else {
-            console.log("No user data found");
+            // console.log("No user data found");
             setUserProfile(null);
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          // console.error("Error fetching user data:", error);
           setUserProfile(null);
         }
       } else {

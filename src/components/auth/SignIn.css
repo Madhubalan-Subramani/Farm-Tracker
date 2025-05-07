@@ -13,7 +13,6 @@
   animation: fadeInBg 1.5s ease forwards;
 }
 
-
 /* ========== CARD ========== */
 .signin-card {
   background-color: white;
@@ -45,7 +44,6 @@
   font-size: 16px;
   line-height: 1.6;
 }
-
 
 /* ========== FORM ========== */
 .signin-form {
@@ -103,7 +101,6 @@
   }
 }
 
-
 /* ========== BUTTON ========== */
 .submit-btn {
   width: 100%;
@@ -157,7 +154,6 @@
   font-weight: 500;
   cursor: pointer;
 }
-
 
 /* ========== ANIMATIONS ========== */
 @keyframes fadeIn {
